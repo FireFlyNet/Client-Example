@@ -3,9 +3,13 @@ package cn.langya.fireflynet.example;
 import cn.langya.fireflynet.api.Packet;
 import cn.langya.fireflynet.client.ClientHandler;
 import cn.langya.fireflynet.client.ClientMain;
+import cn.langya.fireflynet.example.packets.ClientMessagePacket;
 import cn.langya.fireflynet.example.packets.ServerMessagePacket;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author LangYa
@@ -30,15 +34,18 @@ public class Main {
 
             @Override
             public void onPacketRev(Packet packet) throws IOException {
-                if (packet.getId() == 1) new ServerMessagePacket(packet);
+                if (packet.getId() == 1) new ClientMessagePacket(packet.getData());
+                if (packet.getId() == 2) new ServerMessagePacket(packet);
                 // 其他包代码实现
             }
         });
 
         System.out.println("按回车发送信息");
         String userInput;
+        BufferedReader stdInput = new BufferedReader(new InputStreamReader(System.in));
         while ((userInput = stdInput.readLine()) != null) {
-            MessagePacket packet = new MessagePacket(userInput);
+            // UTF8为了中文 也可以不加
+            ClientMessagePacket packet = new ClientMessagePacket(userInput.getBytes(StandardCharsets.UTF_8));
             clientMain.sendPacket(packet);
             System.out.println("发送了: " + userInput);
         }
