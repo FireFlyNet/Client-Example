@@ -34,5 +34,15 @@ public class Main {
                 // 其他包代码实现
             }
         });
+
+        System.out.println("按回车发送信息");
+        String userInput;
+        while ((userInput = stdInput.readLine()) != null) {
+            MessagePacket packet = new MessagePacket(userInput);
+            clientMain.sendPacket(packet);
+            System.out.println("发送了: " + userInput);
+        }
+
+        clientMain.close();
     }
 }
