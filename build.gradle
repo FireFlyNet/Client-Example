@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group = 'cn.langya.fireflynet'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation 'com.github.FireFlyNet.FireFlyNet:api:libs-1.0'
+    implementation 'com.github.FireFlyNet.FireFlyNet:client:libs-1.0'
+}
+
+test {
+    useJUnitPlatform()
+}
